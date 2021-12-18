@@ -39,10 +39,8 @@ def add_item(request):
     cart_items.append(product)
     request.session["cart_items"] = cart_items
 
-    return shortcuts.redirect(to="list")
-
-    # return render(
-    #     request=request,
-    #     template_name="list_page.html",
-    #     context={"items": request.session["cart_items"]}
-    # )
+    return shortcuts.render(
+        request=request,
+        template_name="list.html",
+        context={"items": request.session["cart_items"]}
+    )

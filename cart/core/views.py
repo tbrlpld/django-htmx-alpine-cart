@@ -1,17 +1,48 @@
-from django.shortcuts import render
+from django import http
+from django import shortcuts
+from django import urls
 
 
-PRODUCTS = [
-    "Some item",
-]
+PRODUCTS = {
+    123: {
+        "id": 123,
+        "name": "Some item",
+    },
+}
 
 def list(request):
-    count = 3
-    cart_items = ["Cart item" for _ in range(count)]
-    return render(
+    cart_items = request.session.get("cart_items", [])
+    if not cart_items:
+        request.session["cart_items"] = cart_items
+
+    return shortcuts.render(
         request=request,
         template_name="list_page.html",
-        context={"cart_items": cart_items}
+        context={
+            "product": PRODUCTS[123],
+        }
+
     )
 
+def add_item(request):
+    product_id = request.POST.get("product_id")
+    if not product_id:
+        return http.HttpResponseBadRequest()
+    else:
+        product_id = int(product_id)
 
+    product = PRODUCTS.get(product_id)
+    if not product:
+        return http.HttpResponseBadRequest()
+
+    cart_items = request.session.get("cart_items")
+    cart_items.append(product)
+    request.session["cart_items"] = cart_items
+
+    return shortcuts.redirect(to="list")
+
+    # return render(
+    #     request=request,
+    #     template_name="list_page.html",
+    #     context={"items": request.session["cart_items"]}
+    # )

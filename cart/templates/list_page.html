@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Products in cart</h2>
+    {% include "list.html" with items=cart_items %}
+{% endblock content %}

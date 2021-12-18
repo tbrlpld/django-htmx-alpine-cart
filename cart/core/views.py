@@ -1,6 +1,9 @@
+from http import HTTPStatus
+
 from django import http
 from django import shortcuts
 from django import urls
+from django.template import response
 
 
 PRODUCTS = {
@@ -39,8 +42,12 @@ def add_item(request):
     cart_items.append(product)
     request.session["cart_items"] = cart_items
 
-    return shortcuts.render(
+    return response.TemplateResponse(
         request=request,
-        template_name="list.html",
-        context={"items": request.session["cart_items"]}
+        template="list.html",
+        context={"items": request.session["cart_items"]},
+        headers={"HX-Trigger": "cartUpdate"},
     )
+
+def cart_indicator(request):
+    return shortcuts.render(request=request, template_name="cart-indicator.html")

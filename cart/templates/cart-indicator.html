@@ -1,4 +1,4 @@
-<div>
+<div hx-trigger="cartUpdate from:body" hx-get="{% url "cart-indicator" %}">
    Items in cart
    <span>{{ request.session.cart_items|length }}</span>
 </div>

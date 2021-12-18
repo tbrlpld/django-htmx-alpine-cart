@@ -21,6 +21,7 @@ from cart.core import views as core_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', core_views.list, name="list"),
+    path('', core_views.list),
     path('add-item', core_views.add_item, name="add-item"),
+    path('cart-indicator', core_views.cart_indicator, name="cart-indicator"),
 ]

@@ -1,4 +1,5 @@
 from http import HTTPStatus
+import json
 
 from django import http
 from django import shortcuts
@@ -42,12 +43,18 @@ def add_item(request):
     cart_items.append(product)
     request.session["cart_items"] = cart_items
 
+    hx_trigger_data = {
+        "cart-update": {
+            "message": "Cart items have changed.",
+            "items": cart_items,
+        }
+    }
     return response.TemplateResponse(
         request=request,
         template="list.html",
-        context={"items": request.session["cart_items"]},
-        headers={"HX-Trigger": "cartUpdate"},
+        context={"items": cart_items},
+        headers={"HX-Trigger": json.dumps(hx_trigger_data)},
     )
 
 def cart_indicator(request):
-    return shortcuts.render(request=request, template_name="cart-indicator.html")
+    return shortcuts.render(request=request, template_name="cart-indicator-htmx.html")

@@ -1,0 +1,7 @@
+<div hx-trigger="cart-update from:body" hx-get="{% url "cart-indicator" %}">
+   HTMX Items in cart
+   <span>{{ request.session.cart_items|length }}</span>
+   <small>
+       (requires a separate GET request)
+   </small>
+</div>

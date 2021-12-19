@@ -1,0 +1,6 @@
+<div>
+   APLINE Items in cart
+   {% with request.session.cart_items|length as item_count  %}
+       <span x-data="{ itemCount: {{ item_count }} }" x-text="itemCount" @cart-update.document="itemCount=$event.detail.items.length">{{ item_count }}</span>
+   {% endwith %}
+</div>

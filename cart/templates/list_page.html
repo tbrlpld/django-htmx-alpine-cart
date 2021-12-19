@@ -3,11 +3,11 @@
 
 {% block content %}
     <h2>Products in cart</h2>
-    {% include "list.html" with items=request.session.cart_items %}
     {% url 'add-item' as add_item_url %}
     <form action="{{ add_item_url }}" method="post" accept-charset="utf-8">
         {% csrf_token %}
         <input type="hidden" value="{{ product.id }}" name="product_id" id=""/>
         <button type="submit" hx-post="{{ add_item_url }}" hx-target="#cart-list" hx-swap="outerHTML">Add</button>
     </form>
+    {% include "list.html" with items=request.session.cart_items %}
 {% endblock content %}
